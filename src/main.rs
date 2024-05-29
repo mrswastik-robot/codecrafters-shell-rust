@@ -3,6 +3,7 @@ use std::io::{self, Write};
 
 fn main() {
     
+    loop{
     print!("$ ");
     io::stdout().flush().unwrap();
 
@@ -13,4 +14,5 @@ fn main() {
 
     let command = input.trim();
     println!("{}: command not found", command);
+    }
 }
