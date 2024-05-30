@@ -3,6 +3,9 @@ use std::io::{self, Write};
 use std::process;
 
 fn main() {
+
+    let builtin_commands = ["exit", "echo","type", "cd", "pwd", "export", "unset", "env", "source", "history"];
+
     loop {
         // Print the prompt
         print!("$ ");
@@ -26,6 +29,15 @@ fn main() {
             }
             ["exit"] => process::exit(0),
             ["echo", args @ ..] => println!("{}", args.join(" ")),
+            ["type", args @ ..] => {
+                let command = args.join(" ");
+                if builtin_commands.contains(&command.as_str())
+                {
+                    println!("{} is a shell builtin", command);
+                } else {
+                    println!("{} not found", command);
+                }
+            }
 
             _ => println!("{}: command not found", command),
         }
