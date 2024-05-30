@@ -25,7 +25,8 @@ fn main() {
                 }
             }
             ["exit"] => process::exit(0),
-            
+            ["echo", args @ ..] => println!("{}", args.join(" ")),
+
             _ => println!("{}: command not found", command),
         }
     }
