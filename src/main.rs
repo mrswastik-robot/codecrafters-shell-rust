@@ -6,6 +6,8 @@ fn main() {
 
     let builtin_commands = ["exit", "echo","type", "cd", "pwd", "export", "unset", "env", "source", "history"];
 
+    let path_env = std::env::var("PATH").unwrap();
+
     loop {
         // Print the prompt
         print!("$ ");
@@ -35,7 +37,18 @@ fn main() {
                 {
                     println!("{} is a shell builtin", command);
                 } else {
-                    println!("{} not found", command);
+                    let mut found = false;
+                    for path in path_env.split(":") {
+                        let full_path = format!("{}/{}", path, command);
+                        if std::path::Path::new(&full_path).exists() {
+                            println!("{} is {}", command, full_path);
+                            found = true;
+                            break;
+                        }
+                    }
+                    if !found {
+                        println!("{}: not found", command);
+                    }
                 }
             }
 
