@@ -1,6 +1,6 @@
 #[allow(unused_imports)]
 use std::io::{self, Write};
-use std::process;
+use std::process::{self, Command};
 
 fn main() {
 
@@ -52,7 +52,21 @@ fn main() {
                 }
             }
 
-            _ => println!("{}: command not found", command),
+            // _ => println!("{}: command not found", command),  earlier it was like this but now we have to have the functionality to execute the command as an external command if it is not a built-in command 
+            _ => {
+                let command = tokens[0];
+                let args = &tokens[1..];
+                match Command::new(command).args(args).output() {
+                    Ok(output) => {
+                        io::stdout().write_all(&output.stdout).unwrap();
+                        io::stderr().write_all(&output.stderr).unwrap();
+                    }
+                    Err(_) => {
+                        println!("{}: command not found", command);
+                    }
+                }
+            }
+
         }
     }
 }
