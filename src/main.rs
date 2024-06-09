@@ -52,6 +52,19 @@ fn main() {
                 }
             }
 
+            //handling the cd and pwd commands
+            ["cd", dir] => {
+                if let Err(_) = std::env::set_current_dir(dir){
+                    println!("{}: No such file or directory", dir);
+                }
+            }
+
+            ["pwd"] => {
+                if let Ok(path) = std::env::current_dir(){
+                    println!("{}", path.display());
+                }
+            }
+
             // _ => println!("{}: command not found", command),  earlier it was like this but now we have to have the functionality to execute the command as an external command if it is not a built-in command 
             _ => {
                 let command = tokens[0];
