@@ -53,7 +53,18 @@ fn main() {
             }
 
             //handling the cd and pwd commands
-            ["cd", dir] => {
+
+            ["cd"] | ["cd" , "~"] => {
+                if let Some(home_dir) = std::env::var("HOME").ok(){
+                    if let Err(e) = std::env::set_current_dir(&home_dir){
+                        println!("cd: {}: {}", home_dir, e);
+                    }
+                } else {
+                    println!("cd: HOME enivornment variable not set.")
+                }
+            }
+
+            ["cd", dir] => {                                    //it's the standard case when there is some directory after the cd command either valid or invalid
                 if let Err(_) = std::env::set_current_dir(dir){
                     println!("{}: No such file or directory", dir);
                 }
