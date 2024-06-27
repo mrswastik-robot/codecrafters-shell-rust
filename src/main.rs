@@ -38,7 +38,7 @@ fn main() {
 
     // Display ASCII art for "Trash" when the shell starts
     println_styled(TRASH_ASCII, PROMPT_COLOR);
-    println_styled("Welcome to Trash Shell!", FG_COLOR);
+    println_styled("Welcome to Try Again Shell!", FG_COLOR);
 
     let builtin_commands = ["exit", "echo", "type", "cd", "pwd", "export", "unset", "env", "source", "history"];
 
